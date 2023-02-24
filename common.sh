@@ -90,7 +90,8 @@ schema_setup(){
     error_check $?
 
     print_head "loading schema"
-    mongo --host mongodb.devops2023.online </app/schema/catalogue.js
+    mongo --host mongodb.devops2023.online </app/schema/catalogue.js &>>"${log_file}"
+    error_check $?
   fi
 
 }
