@@ -43,7 +43,7 @@ app_setup(){
   if [ ! -d /app ];then
     mkdir /app &>>"${log_file}"
   elif [ -d /app ];then
-    rm -rf /app &>>"${log_file}"
+    rm -rf /app/* &>>"${log_file}"
   fi
   error_check $?
 
