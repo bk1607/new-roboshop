@@ -3,7 +3,7 @@ print_head(){
 }
 log_file=/tmp/roboshop.org
 
-code_dir=(pwd)
+code_dir=$(pwd)
 
 error_check() {
   if [ $1 -eq 0 ];then
