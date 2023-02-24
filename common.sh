@@ -12,4 +12,5 @@ error_check() {
     echo "Failure"
     echo "something went wrong check ${log_file} for error"
     exit 1
+  fi
 }
