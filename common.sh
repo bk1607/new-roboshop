@@ -32,7 +32,7 @@ systemd_setup(){
 
 app_setup(){
 
-  print_add "creating an application user"
+  print_head "creating an application user"
   id roboshop &>>"${log_file}"
   if [ $? -ne 0 ];then
     useradd roboshop &>>"${log_file}"
@@ -47,11 +47,14 @@ app_setup(){
   fi
   error_check $?
 
-  print_head "downloading application to app directory"
+  print_head "downloading application content to app directory"
   curl -L -o /tmp/"${component}".zip https://roboshop-artifacts.s3.amazonaws.com/"${component}".zip &>>"${log_file}"
+  error_check $?
   cd /app
-  unzip /tmp/"${component}".zip &>>"${log_file}"
 
+  print_head "extracting content"
+  unzip /tmp/"${component}".zip &>>"${log_file}"
+  error_check $?
 }
 
 node_js(){
@@ -68,7 +71,7 @@ node_js(){
   print_head "installing dependencies"
   cd /app
   npm install &>>"${log_file}"
-
+  error_check $?
   schema_setup
 
   systemd_setup
