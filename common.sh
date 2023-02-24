@@ -69,7 +69,6 @@ node_js(){
   app_setup
 
   print_head "installing dependencies"
-  cd /app
   npm install &>>"${log_file}"
   error_check $?
   schema_setup
