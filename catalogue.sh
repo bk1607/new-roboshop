@@ -1,4 +1,4 @@
 source common.sh
 component=catalogue
 schema='mongo'
-nodejs
+node_js
