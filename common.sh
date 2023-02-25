@@ -79,7 +79,7 @@ node_js(){
 }
 
 schema_setup(){
-  if [ "${schema}"=='mongo' ];then
+  if [ "${schema}" == 'mongo' ];then
     print_head "creating mongodb repo file"
     cp "${code_dir}"/configs/mongodb.repo /etc/yum.repos.d/mongo.repo &>>"${log_file}"
     error_check $?
@@ -91,6 +91,68 @@ schema_setup(){
     print_head "loading schema"
     mongo --host mongodb.devops2023.online </app/schema/catalogue.js &>>"${log_file}"
     error_check $?
+  elif [ "${schema}" == 'mysql' ];then
+    print_head "Installing mysql"
+    yum install mysql -y
+    error_check $?
+
+    print_head "loading schema"
+    mysql -h mysql.devops2023.online -uroot -p"${mysql_root_password}" < /app/schema/"${component}".sql &>>"${log_file}"
+    error_check $?
   fi
+
+}
+
+maven(){
+  print_head "Installing maven"
+  yum install maven -y &>>"${log_file}"
+  error_check $?
+
+  app_setup
+
+  print_head "downloading dependencies"
+  cd /app
+  mvn clean package &>>"${log_file}"
+  mv target/"${component}"-1.0.jar "${component}".jar &>>"${log_file}"
+  error_check $?
+
+  schema_setup
+
+  systemd_setup
+
+
+
+}
+
+python(){
+  print_head "Installing python"
+  yum install python36 gcc python3-devel -y &>>"${log_file}"
+  error_check $?
+
+  app_setup
+
+  print_head "Downloading dependencies"
+  cd /app
+  pip3.6 install -r requirements.txt &>>"${log_file}"
+  error_check $?
+
+  systemd_setup
+}
+
+golang(){
+  print_head "installing golang"
+  yum install golang -y &>>"${log_file}"
+  error_check $?
+
+  app_setup
+
+  print_head "Downloading dependencies"
+  cd /app
+  go mod init dispatch &>>"${log_file}"
+  go get &>>"${log_file}"
+  go build &>>"${log_file}"
+  error_check $?
+
+  systemd_setup
 
 }
