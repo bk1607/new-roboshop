@@ -24,7 +24,7 @@ systemd_setup(){
   systemctl daemon-reload &>>"${log_file}"
   error_check $?
 
-  print_head "starting catalogue service"
+  print_head "starting ${component} service"
   systemctl enable "${component}" &>>"${log_file}"
   systemctl restart "${component}" &>>"${log_file}"
 
