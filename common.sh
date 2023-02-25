@@ -93,7 +93,7 @@ schema_setup(){
     error_check $?
   elif [ "${schema}" == 'mysql' ];then
     print_head "Installing mysql"
-    yum install mysql -y
+    yum install mysql -y &>>"${log_file}"
     error_check $?
 
     print_head "loading schema"
