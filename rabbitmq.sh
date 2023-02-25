@@ -24,12 +24,14 @@ error_check $?
 print_head "enabling and starting rabbitmq service"
 systemctl enable rabbitmq-server &>>"${log_file}"
 systemctl start rabbitmq-server &>>"${log_file}"
+error_check $?
 
 print_head "add application user"
 rabbitmqctl list_users | grep roboshop &>>"${log_file}"
 if [ $? -ne 0 ];then
   rabbitmqctl add_user roboshop "${rabbitmq_password}" &>>"${log_file}"
 fi
+error_check $?
 
 print_head "configure permission for app user"
 rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>>"${log_file}"
