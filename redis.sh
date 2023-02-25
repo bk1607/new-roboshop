@@ -15,6 +15,7 @@ print_head "allowing all the incoming traffic"
 sed -i -e 's/127.0.0.1/0.0.0./' /etc/redis.conf /etc/redis/redis.conf &>>"${log_file}"
 error_check $?
 
-print "enabling and restarting the service"
+print_head "enabling and restarting the service"
 systemctl enable redis &>>"${log_file}"
 systemctl start redis &>>"${log_file}"
+error_check $?
