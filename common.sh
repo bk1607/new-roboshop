@@ -89,7 +89,7 @@ schema_setup(){
     error_check $?
 
     print_head "loading schema"
-    mongo --host mongodb.devops2023.online </app/schema/catalogue.js &>>"${log_file}"
+    mongo --host mongodb.devops2023.online </app/schema/"${component}".js &>>"${log_file}"
     error_check $?
   elif [ "${schema}" == 'mysql' ];then
     print_head "Installing mysql"
